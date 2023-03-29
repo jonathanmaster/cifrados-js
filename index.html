@@ -38,29 +38,29 @@
                 
                 <div class="row gx-0 mb-5 mb-lg-0 justify-content-center ">
                     <div class="col-lg-6 text-center">
-                        <h2>Ingresa los datos</h2>
+                        <h2 class="mb-5">Ingresa los datos</h2>
                         <form method="get" onsubmit="cifrar()">
                             <label for="message">Mensaje:
-                                <input id="mensaje" class="form-control" type="text" pattern="[A-Z]+" placeholder="Introduce el mensaje..." autofocus required>
+                                <input id="mensaje" class="form-control" type="text" pattern="[A-Z]+" placeholder="Mensaje Mayúscula..." autofocus required>
         
                             </label>
-                            <label for="key">Clave:
-                                <input id="clave" class="form-control" type="text" pattern="[A-Z]+" placeholder="Introduce la clave..." required>
+                            <label class="mb-4" for="key">Clave:
+                                <input id="clave" class="form-control" type="text" pattern="[A-Z]+" placeholder="Clave Mayúscula..." required>
                                 
                             </label><br>
-                            <input type="submit" class="btn btn-light" value="Cifrar">
+                            <input type="submit" class="btn btn-light mb-4" value="Cifrar">
                         </form>
                         <div id="resultado1" class="resultado"></div>
                         <form method="get" action="descifrar()">
                             <label>Mensaje cifrado
-                                <input id="mensaje_cif" class="form-control" type="text" pattern="[A-Z]+" placeholder="Introduce el mensaje..." autofocus required>
+                                <input id="mensaje_cif" class="form-control" type="text" pattern="[A-Z]+" placeholder="Mensaje Mayúscula..." autofocus required>
                                 
                               </label>
-                              <label>Clave
-                                <input id="clave2" class="form-control" type="text" pattern="[A-Z]+" placeholder="Introduce la clave..." required>
+                              <label class="mb-4">Clave
+                                <input id="clave2" class="form-control" type="text" pattern="[A-Z]+" placeholder="Clave Mayúscula..." required>
                                
                               </label>
-                              <input type="submit" class="btn btn-light" onclick="descifrar()" value="Descifrar">
+                              <input type="submit" class="btn btn-light mb-4" onclick="descifrar()" value="Descifrar">
                         </form> 
                         <div id="resultado2" class="resultado"></div>
 
