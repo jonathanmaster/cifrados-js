@@ -1,70 +1,100 @@
-// Definimos el alfabeto que vamos a utilizar en el cifrado
-const alphabet = "abcdefghijklmnopqrstuvwxyz";
-
-// Función que cifra el mensaje usando el cifrado de Vigenère
-function encrypt() {
-  // Obtenemos el valor de los campos de texto del mensaje y la clave y los convertimos a minúsculas
-  const message = document.getElementById("message").value.toLowerCase();
-  const key = document.getElementById("key").value.toLowerCase();
-
-  // Eliminamos todos los caracteres que no sean letras del alfabeto del mensaje y la clave
-  const messageClean = message.replace(/[^a-z]/g, "");
-  const keyClean = key.replace(/[^a-z]/g, "");
-
-  // Inicializamos la variable que va a contener el mensaje cifrado
-  let encrypted = "";
-
-  // Recorremos cada letra del mensaje y la ciframos usando el cifrado de Vigenère
-  for (let i = 0; i < messageClean.length; i++) {
-    // Obtenemos la letra del mensaje y la letra de la clave correspondiente a la posición actual
-    const messageChar = messageClean.charAt(i);
-    const keyChar = keyClean.charAt(i % keyClean.length);
-
-    // Obtenemos el índice de la letra del mensaje y la letra de la clave en el alfabeto
-    const messageIndex = alphabet.indexOf(messageChar);
-    const keyIndex = alphabet.indexOf(keyChar);
-
-    // Calculamos el índice de la letra cifrada en el alfabeto
-    const newIndex = (messageIndex + keyIndex) % alphabet.length;
-
-    // Agregamos la letra cifrada a la variable encrypted
-    encrypted += alphabet.charAt(newIndex);
+function cifrar() {
+  let SIZE_ALF = 26;
+  
+  let clave = document.getElementById("clave").value;
+  let size_clave = clave.length;
+  let mensaje = document.getElementById("mensaje").value;
+  let size_mensaje = mensaje.length;
+  
+  // Guardar alfabeto
+	let alfabeto = [];
+  for(i = 0; i < SIZE_ALF; i++){
+    alfabeto[i] = String.fromCharCode(65 + i);
   }
+  
+  // Guardar valores de la clave
+  let valores_clave = [];
+  for(i = 0; i < size_clave; i++){
+    for(j = 0; j < SIZE_ALF; j++){
+      if(clave[i] == alfabeto[j]){
+      	valores_clave[i] = j;
+      }
+    }
+  }
+  
+  // Cifrar
+  let mensaje_cifrado = [];
+  for(i = 0; i < size_mensaje; i++){
+    let pos_letra;
+    for(j = 0; j < SIZE_ALF; j++){
+      if(mensaje[i] == alfabeto[j]){
+        pos_letra = j;
+      }
+    }
+    mensaje_cifrado[i] = alfabeto[(valores_clave[i%size_clave] + pos_letra) % SIZE_ALF];
+  }
+  
+  // Escribir el resultado en el HTML
+  div = document.getElementById("resultado1");
+    let cadena = "";
+    for(i = 0; i < size_mensaje; i++){
+      cadena += mensaje_cifrado[i];
+    }
+    div.textContent = 'Mensaje cifrado: ' + cadena;
+  event.preventDefault()
 
-  // Escribimos el mensaje cifrado en el campo de texto de resultado
-  document.getElementById("result1").value = encrypted;
 }
 
-// Función que descifra el mensaje usando el cifrado de Vigenère
-function decrypt() {
-  // Obtenemos el valor de los campos de texto del mensaje y la clave y los convertimos a minúsculas
-  const message = document.getElementById("message").value.toLowerCase();
-  const key = document.getElementById("key").value.toLowerCase();
-
-  // Eliminamos todos los caracteres que no sean letras del alfabeto del mensaje y la clave
-  const messageClean = message.replace(/[^a-z]/g, "");
-  const keyClean = key.replace(/[^a-z]/g, "");
-
-  // Inicializamos la variable que va a contener el mensaje descifrado
-  let decrypted = "";
-
-  // Recorremos cada letra del mensaje y la desciframos usando el cifrado de Vigenère
-  for (let i = 0; i < messageClean.length; i++) {
-    // Obtenemos la letra del mensaje y la letra de la clave correspondiente a la posición actual
-    const messageChar = messageClean.charAt(i);
-    const keyChar = keyClean.charAt(i % keyClean.length);
-
-    // Obtenemos el índice de la letra del mensaje y la letra de la clave en el alfabeto
-    const messageIndex = alphabet.indexOf(messageChar);
-    const keyIndex = alphabet.indexOf(keyChar);
-
-    // Calculamos el índice de la letra descifrada en el alfabeto
-    const newIndex =
-      (messageIndex - keyIndex + alphabet.length) % alphabet.length;
-
-    // Agregamos la letra descifrada a la variable decrypted
-    decrypted += alphabet.charAt(newIndex);
-
-    document.getElementById("result2").value = decrypted;
+function modNeg(n1, n2){
+  let mod = n1;
+  while(mod < 0){
+    mod += n2;
   }
+  return mod;
+}
+
+function descifrar() {
+  let SIZE_ALF = 26;
+  
+  let clave = document.getElementById("clave2").value;
+  let size_clave = clave.length;
+  let mensaje = document.getElementById("mensaje_cif").value;
+  let size_mensaje = mensaje.length;
+  
+  // Guardar alfabeto
+	let alfabeto = [];
+  for(i = 0; i < SIZE_ALF; i++){
+    alfabeto[i] = String.fromCharCode(65 + i);
+  }
+  
+  // Guardar valores de la clave
+  let valores_clave = [];
+  for(i = 0; i < size_clave; i++){
+    for(j = 0; j < SIZE_ALF; j++){
+      if(clave[i] == alfabeto[j]){
+      	valores_clave[i] = j;
+      }
+    }
+  }
+  
+  // Descifrar
+  let mensaje_descifrado = [];
+  for(i = 0; i < size_mensaje; i++){
+    let pos_letra;
+    for(j = 0; j < SIZE_ALF; j++){
+      if(mensaje[i] == alfabeto[j]){
+        pos_letra = j;
+      }
+    }
+    mensaje_descifrado[i] = alfabeto[modNeg((pos_letra - valores_clave[i%size_clave]), SIZE_ALF)];
+    event.preventDefault()
+  }
+  
+  // Escribir el resultado en el HTML
+  div = document.getElementById("resultado2");
+  let cadena = "";
+  for(i = 0; i < size_mensaje; i++){
+    cadena += mensaje_descifrado[i];
+  }
+  div.textContent = 'Mensaje descifrado: ' + cadena;
 }
